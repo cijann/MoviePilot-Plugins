@@ -337,10 +337,11 @@ def create_app(
         """
         FastAPI 生命周期管理器：创建共享 httpx 客户端及缓存，关闭时清理资源
         """
-        limits = Limits(max_keepalive_connections=20, keepalive_expiry=30.0)
-        app.state.http_client_follow = AsyncClient(follow_redirects=True, limits=limits)
+        PROXY = "http://192.168.1.95:7890"
+        limits = Limits(max_connections=20, keepalive_expiry=30.0)
+        app.state.http_client_follow = AsyncClient(follow_redirects=True, limits=limits, proxy=PROXY)
         app.state.http_client_no_follow = AsyncClient(
-            follow_redirects=False, limits=limits
+            follow_redirects=False, limits=limits, proxy=PROXY
         )
         app.state.playback_url_cache = {}
         app.state.playback_cache_order = []
