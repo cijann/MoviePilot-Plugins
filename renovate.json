@@ -19,17 +19,6 @@
       "enabled": false
     },
     {
-      "matchFileNames": [
-        "plugins.v2/p115strmhelper/requirements.txt"
-      ],
-      "matchPackageNames": [
-        "full-strm-sync",
-        "txt-tree-storage",
-        "share-strm-scan"
-      ],
-      "enabled": false
-    },
-    {
       "matchPackageNames": [
         "grpcio",
         "protobuf"

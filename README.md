@@ -19,58 +19,39 @@ https://github.com/cijann/MoviePilot-Plugins/
 
 ## 插件列表
 
+本仓库只保留自己实际使用和改动过的插件。上游 fork 带来的其余插件已清理，如需获取请前往上游仓库。
+
 ### V3 插件（MoviePilot 3.2.6+）
 
 | 插件 | 版本 | 来源 | 说明 |
 |---|---|---|---|
-| [豆瓣榜单Plus](plugins.v3/doubanrankplus/) | 2.0.1 | 原作 [boeto](https://github.com/boeto/MoviePilot-Plugins)，本仓库适配 | 定时读取豆瓣 RSS，把想看清单和热门榜单里的影视添加为订阅；已适配 3.2.6 新版识别接口 |
+| [豆瓣榜单Plus](plugins.v3/doubanrankplus/) | 2.0.2 | 原作 [boeto](https://github.com/boeto/MoviePilot-Plugins)，本仓库适配 | 定时读取豆瓣 RSS，把想看清单和热门榜单里的影视添加为订阅；已适配 3.2.6 新版识别接口 |
 
-### V2 插件（源自 DDSRem，原样保留）
+### V2 插件
 
-以下插件均来自上游 [DDSRem-Dev/MoviePilot-Plugins](https://github.com/DDSRem-Dev/MoviePilot-Plugins)，作者 DDSRem，本仓库随 fork 保留。
-
-#### 探索类
-
-- **CCTV探索** `CCTVDiscover` — 让探索支持 CCTV 的数据浏览
-- **咪咕视频探索** `MiGuDiscover` — 让探索支持咪咕视频的数据浏览
-- **哔哩哔哩探索** `BilibiliDiscover` — 让探索支持哔哩哔哩的数据浏览
-- **Bangumi每日放送探索** `BangumiDailyDiscover` — 让探索支持 Bangumi 每日放送的数据浏览
-- **芒果TV探索** `MangGuoDiscover` — 让探索支持芒果TV的数据浏览
-- **腾讯视频探索** `TencentVideoDiscover` — 让探索支持腾讯视频的数据浏览
-
-#### 网盘与存储类
-
-- **115网盘储存** `P115Disk` — 更快更强的 115 网盘存储模块
-- **115网盘STRM助手** `P115StrmHelper` — 115 网盘 STRM 生成一条龙服务
-- **123云盘储存** `P123Disk` — 使存储支持 123 云盘
-- **123云盘STRM助手** `P123StrmHelper` — 123 云盘 STRM 生成一条龙服务
-- **CloudDrive2储存** `CloudDriveDisk` — 使存储支持 CloudDrive2，grpc 原生 API 操作
-- **Emby 302 反向代理** `EmbyReverseProxy` — 自动代理 HTTP 链接、跳转最终地址，支持外部播放器调用（本仓库有本地修复，见下）
-- **MediaWarp** `MediaWarp` — EmbyServer/Jellyfin 中间件：优化 STRM 播放、自定义前端样式与访问客户端、嵌入脚本
-
-#### 媒体管理类
-
-- **神医媒体文件同步删除** `SaMediaSyncDel` — 通过神医插件通知同步删除历史记录、源文件和下载任务
-- **ffprobe命名补充** `FFprobeNamingSupplement` — 整理重命名时调用 `ffprobe`，补全 `videoFormat`、`videoCodec`、`videoBit`、`audioCodec`、`fps`、`effect`，支持 STRM
-
-#### 工具类
-
-- **115订阅站点修复** `P115SubFixer` — 修复 115 网盘订阅追更插件导致的订阅站点被篡改问题，并自动卸载该插件
+| 插件 | 版本 | 来源 | 说明 |
+|---|---|---|---|
+| Emby 302 反向代理 `EmbyReverseProxy` | 0.2.4 | 原作 [DDSRem](https://github.com/DDSRem-Dev/MoviePilot-Plugins)，本仓库修复 | 自动代理 HTTP 链接、跳转最终地址，支持外部播放器调用；本仓库修了 ConnectTimeout（见下） |
 
 ## 本仓库所做的更改
 
 相对上游 fork 点，本仓库的本地改动：
 
-1. **豆瓣榜单Plus 适配 MoviePilot 3.2.6**（2026-11-17，v2.0.1）
+1. **豆瓣榜单Plus 适配 MoviePilot 3.2.6**（2026-11-17，v2.0.1 → v2.0.2）
    - 原版 `2.0.0` 调用旧接口 `recognize_media(tmdbid=/doubanid=)` 和 `subscribechain.add(tmdbid=...)`，在 3.2.6 上会报 `unexpected keyword argument 'tmdbid'`，导致条目无法识别、订阅加不上。
-   - 改为新版 `media_source` + `media_id` 成对传参；版本号升为 `2.0.1`。
+   - 改为新版 `media_source` + `media_id` 成对传参。
    - 同时新增 V3 索引 `package.v3.json`，使本仓库可作为 V3 插件市场源使用（原仓库只有 V2 索引）。
+   - v2.0.2 将作者字段标注为 `boeto / cijann(适配)`、作者主页指向本仓库，修正插件卡片上的来源显示。
    - 详情见 [插件 README](plugins.v3/doubanrankplus/README.md)。
 
 2. **Emby 302 反向代理修复 ConnectTimeout**（2026-07-11）
    - 给 `http_client_follow` 和 `http_client_no_follow` 两个 `httpx.AsyncClient` 加上 `PROXY = http://192.168.1.95:7890`（mihomo 代理）。
    - 将 `Limits(max_keepalive_connections=20)` 改为 `Limits(max_connections=20)`。
    - 解决解析 alist 夸克直链时的 `ConnectTimeout`。
+
+3. **清理未改动的插件**（2026-11-17）
+   - 删除了 fork 自上游、但本仓库未做任何修改的 15 个 V2 插件及其文档/前端资源，只保留有本地改动的 `embyreverseproxy`。
+   - `package.v2.json` 同步精简为仅剩 `EmbyReverseProxy`。
 
 > [!IMPORTANT]
 > 第 2 项里的代理地址是本机环境的私有地址（192.168.1.95），如在其他环境使用该插件，请按实际情况修改或移除。

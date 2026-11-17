@@ -79,15 +79,15 @@ class DoubanRankPlus(_PluginBase):
     # 插件名称
     plugin_name = "豆瓣榜单Plus"
     # 插件描述
-    plugin_desc = "豆瓣热门榜单增强版，支持配置和历史记录迁移到新MP"
+    plugin_desc = "豆瓣热门榜单增强版，支持配置和历史记录迁移到新MP；已适配 MoviePilot 3.2.6+ 识别接口。"
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/boeto/MoviePilot-Plugins/main/icons/DouBanRankPlus.png"
     # 插件版本
-    plugin_version = "2.0.1"
-    # 插件作者
-    plugin_author = "boeto"
+    plugin_version = "2.0.2"
+    # 插件作者（原作者 + 适配者）
+    plugin_author = "boeto / cijann(适配)"
     # 作者主页
-    author_url = "https://github.com/boeto/MoviePilot-Plugins"
+    author_url = "https://github.com/cijann/MoviePilot-Plugins"
     # 插件配置项ID前缀
     plugin_config_prefix = "doubanrankplus_"
     # 加载顺序
