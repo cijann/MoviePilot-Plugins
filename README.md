@@ -45,17 +45,17 @@ https://github.com/cijann/MoviePilot-Plugins/
    - 详情见 [插件 README](plugins.v3/doubanrankplus/README.md)。
 
 2. **Emby 302 反向代理：代理改为可配置**（ConnectTimeout 修复于 2026-07-11，2026-11-17 改为自定义选项，v0.2.5）
-   - 早期给 `http_client_follow` 和 `http_client_no_follow` 两个 `httpx.AsyncClient` 固定加上 `PROXY = http://192.168.1.95:7890`（mihomo 代理），用于解决解析 alist 夸克直链时的 `ConnectTimeout`。
+   - 早期为 `http_client_follow` 和 `http_client_no_follow` 两个 `httpx.AsyncClient` 写死了本地 HTTP 代理，用于解决解析 alist 夸克直链时的 `ConnectTimeout`。
    - 现在移除硬编码代理地址，插件表单新增 `proxy` 配置项；填写后传给两个 `AsyncClient`，留空则不传 `proxy`，改为直连。
    - 保留 `Limits(max_connections=20)` 的连接池调整。
-   - 升级到 v0.2.5 后，如需继续使用原来的代理，请在插件配置里手动填写 `http://192.168.1.95:7890`。
+   - 升级到 v0.2.5 后，如需继续使用原来的代理，请在插件配置里手动填写对应地址。
 
 3. **清理未改动的插件**（2026-11-17）
    - 删除了 fork 自上游、但本仓库未做任何修改的 15 个 V2 插件及其文档/前端资源，只保留有本地改动的 `embyreverseproxy`。
    - `package.v2.json` 同步精简为仅剩 `EmbyReverseProxy`。
 
 > [!IMPORTANT]
-> 插件不内置任何固定代理地址。`http://192.168.1.95:7890` 只是本机历史配置示例；其他环境请填写自己的 HTTP 代理，或留空直连。
+> 插件不内置任何固定代理地址，请按实际环境填写自己的 HTTP 代理，或留空直连。
 
 提交记录遵循 [Conventional Commits](https://www.conventionalcommits.org/)，规范见 [AGENTS.md](AGENTS.md)。
 
