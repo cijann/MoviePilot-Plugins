@@ -18,7 +18,7 @@ Co-authored-by: <AI Name> <ai-email@example.com>
 ```
 
 - **type** (required): Commit type; see table below.
-- **scope** (required): Affected scope, e.g. plugin name `p115strmhelper`, `migudiscover`, or area like `ci`, `deps`.
+- **scope** (required): Affected scope, e.g. plugin name `doubanrankplus`, `embyreverseproxy`, or area like `ci`, `deps`.
 - **subject** (required): Short description, ~50 chars; no period at the end.
 - **Co-authored-by** (required when AI is involved): Footer line attributing the AI assistant that contributed to the commit; use the **AI agent’s own identity** (its canonical name and email as defined in its system prompt), **not** a hardcoded example. For instance, an agent identifying as "Sisyphus" should use `Sisyphus <sisyphus@ohmyopenCode.com>`, while one identifying as "Cursor Agent" should use `Cursor Agent <cursoragent@cursor.com>`.
 
@@ -38,13 +38,13 @@ Co-authored-by: <AI Name> <ai-email@example.com>
 ### Examples
 
 ```
-feat(p115strmhelper): support MCP tools/list and tools/call
+feat(doubanrankplus): adapt recognize_media to MediaSource API
 
 Co-authored-by: Sisyphus <sisyphus@ohmyopenCode.com>
 ```
 
 ```
-fix(p115strmhelper): fix offline task list pagination params
+fix(embyreverseproxy): resolve ConnectTimeout on direct links
 
 Co-authored-by: Sisyphus <sisyphus@ohmyopenCode.com>
 ```
@@ -174,9 +174,9 @@ from typing import List, Optional, Tuple
 from app.schemas import FileItem
 
 
-class P115Api:
+class ProxyApp:
     """
-    115 网盘基础操作类
+    Emby 反向代理应用类
     """
 
     def get_pid_by_path(self, path: Path) -> int:
@@ -223,7 +223,7 @@ Requirements:
 - Chinese prose.
 - Import generic containers from `typing`: use `List` / `Dict` / `Tuple` / `Optional`,
   and do not use Python-native generics such as `list[str]` or `tuple[int, ...]`.
-  See `plugins.v2/p115disk/p115_api.py` for reference.
+  See `plugins.v2/embyreverseproxy/proxy_app.py` for reference.
 - Parameter form: `:param name (Type): description`.
 - Return form: `:return Type: description` — single concrete type where
   possible.
@@ -249,10 +249,10 @@ and avoids duplicating verbose annotations already present in code.
 | `str` / `int` / `bool`       | `str` / `int` / `bool` | Bare types unchanged                      |
 | `Optional[str]`              | `str`                  | Strip `Optional` wrapper                  |
 
-Examples from the codebase (`plugins.v2/p115disk/p115_api.py`):
+Examples from the codebase (`plugins.v2/embyreverseproxy/proxy_app.py`):
 
 ```python
-# p115_api.py — return stripped to container type, param types in parentheses
+# proxy_app.py — return stripped to container type, param types in parentheses
 def list(self, fileitem: FileItem) -> List[FileItem]:
     """
     浏览文件或目录
@@ -262,7 +262,7 @@ def list(self, fileitem: FileItem) -> List[FileItem]:
     :return List: 文件项列表，如果是文件则返回包含该文件的列表，如果是目录则返回目录下的所有文件和子目录
     """
 
-# p115_api.py — bare types (str) unchanged, container types (List, Dict) bare
+# proxy_app.py — bare types (str) unchanged, container types (List, Dict) bare
 def iter_files(
     self, fileitem: FileItem
 ) -> Optional[List[FileItem]]:
@@ -337,11 +337,11 @@ dedicated `examples/` directory or a test file.
 **Correct — describe the contract, not the usage:**
 
 ```python
-class P115Api:
+class ProxyApp:
     """
-    115 网盘基础操作类
+    Emby 反向代理应用类
 
-    封装 115 网盘的文件列表、上传下载、目录管理、快照等核心操作
+    封装 Emby 反向代理的客户端创建、缓存管理与播放直链解析
     提供限速、缓存和错误重试机制
     """
 ```
@@ -359,7 +359,7 @@ provide.
 _enabled = False
 _client = None
 _disk_name = None
-_p115_api = None
+_http_client = None
 _cookie = None
 ```
 
@@ -414,7 +414,7 @@ truth used by docs and log-formatting helpers.
 ### 3.4 Deprecation Markers
 
 ```python
-# @deprecated: use P115Api.create_folder instead — removal in v0.3.0.
+# @deprecated: use ProxyApp.create_app instead — removal in v0.3.0.
 def legacy_mkdir(...):
     ...
 ```

@@ -69,14 +69,8 @@ https://github.com/cijann/MoviePilot-Plugins/
 
 感谢上游插件作者们的付出：
 
-- [DDSRem-Dev/MoviePilot-Plugins](https://github.com/DDSRem-Dev/MoviePilot-Plugins)
-- [boeto/MoviePilot-Plugins](https://github.com/boeto/MoviePilot-Plugins)
-
-以及插件依赖的开源项目：
-
-- [p115client](https://github.com/ChenyangGao/p115client)
-- [p123client](https://github.com/ChenyangGao/p123client)
-- [MediaWarp](https://github.com/Akimio521/MediaWarp)
+- [DDSRem-Dev/MoviePilot-Plugins](https://github.com/DDSRem-Dev/MoviePilot-Plugins) — Emby 302 反向代理原作
+- [boeto/MoviePilot-Plugins](https://github.com/boeto/MoviePilot-Plugins) — 豆瓣榜单Plus 原作
 
 ## 许可证
 
