@@ -334,7 +334,7 @@ class EmbyReverseProxy(_PluginBase):
                                 "props": {
                                     "model": "proxy",
                                     "label": "自定义代理（可选）",
-                                    "placeholder": "http://192.168.1.95:7890",
+                                    "placeholder": "http://地址:端口",
                                     "hint": "用于解析 alist/夸克等 HTTP 直链；留空表示不使用代理，直接连接。填写后仅对插件内部 httpx 请求生效。",
                                     "persistent-hint": True,
                                     "clearable": True,

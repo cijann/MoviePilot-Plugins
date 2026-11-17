@@ -161,7 +161,7 @@ def create_app(
     :param pin_rules (List): 顶置路径规则列表 (路径前缀, 目标URL)；命中时先替换再 302
     :param external_player_url (bool): 是否启用外部播放器链接注入
     :param external_player_list (List): 要注入的外部播放器 key 列表；为空时使用全部
-    :param proxy (str): 自定义 HTTP 代理地址，如 http://192.168.1.95:7890；留空表示不使用代理
+    :param proxy (str): 自定义 HTTP 代理地址；留空表示不使用代理
 
     :return FastAPI: 配置好的 FastAPI 应用实例
     """
