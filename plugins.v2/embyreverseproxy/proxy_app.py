@@ -152,6 +152,7 @@ def create_app(
     pin_rules: List[Tuple[str, str]] | None = None,
     external_player_url: bool = False,
     external_player_list: List[str] | None = None,
+    proxy: str | None = None,
 ) -> FastAPI:
     """
     创建 Emby 反向代理 FastAPI 应用
@@ -160,10 +161,12 @@ def create_app(
     :param pin_rules (List): 顶置路径规则列表 (路径前缀, 目标URL)；命中时先替换再 302
     :param external_player_url (bool): 是否启用外部播放器链接注入
     :param external_player_list (List): 要注入的外部播放器 key 列表；为空时使用全部
+    :param proxy (str): 自定义 HTTP 代理地址，如 http://192.168.1.95:7890；留空表示不使用代理
 
     :return FastAPI: 配置好的 FastAPI 应用实例
     """
     emby_host = emby_host.rstrip("/")
+    proxy = (proxy or "").strip() or None
     pin_rules = pin_rules or []
     if external_player_url:
         _player_keys = (
@@ -337,11 +340,15 @@ def create_app(
         """
         FastAPI 生命周期管理器：创建共享 httpx 客户端及缓存，关闭时清理资源
         """
-        PROXY = "http://192.168.1.95:7890"
         limits = Limits(max_connections=20, keepalive_expiry=30.0)
-        app.state.http_client_follow = AsyncClient(follow_redirects=True, limits=limits, proxy=PROXY)
+        client_kwargs: dict[str, Any] = {"limits": limits}
+        if proxy:
+            client_kwargs["proxy"] = proxy
+        app.state.http_client_follow = AsyncClient(
+            follow_redirects=True, **client_kwargs
+        )
         app.state.http_client_no_follow = AsyncClient(
-            follow_redirects=False, limits=limits, proxy=PROXY
+            follow_redirects=False, **client_kwargs
         )
         app.state.playback_url_cache = {}
         app.state.playback_cache_order = []

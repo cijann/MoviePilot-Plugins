@@ -58,9 +58,9 @@ class EmbyReverseProxy(_PluginBase):
         "Emby 302 反向代理，自动代理 HTTP 链接，跳转最终地址，支持外部播放器调用。"
     )
     plugin_icon = "https://raw.githubusercontent.com/jxxghp/MoviePilot-Plugins/refs/heads/main/icons/Emby_A.png"
-    plugin_version = "0.2.4"
-    plugin_author = "DDSRem"
-    author_url = "https://github.com/DDSRem"
+    plugin_version = "0.2.5"
+    plugin_author = "DDSRem / cijann(适配)"
+    author_url = "https://github.com/cijann/MoviePilot-Plugins"
     plugin_config_prefix = "embyreverseproxy_"
     plugin_order = 20
     auth_level = 1
@@ -73,6 +73,7 @@ class EmbyReverseProxy(_PluginBase):
     _pin_rules_raw = ""
     _external_player_url = False
     _external_player_list: List[str] = []
+    _proxy = ""
     _server = None
     _thread = None
 
@@ -94,6 +95,7 @@ class EmbyReverseProxy(_PluginBase):
             self._pin_rules = _parse_pin_rules(self._pin_rules_raw)
             self._external_player_url = config.get("external_player_url", False)
             self._external_player_list = config.get("external_player_list") or []
+            self._proxy = (config.get("proxy") or "").strip()
             self._update_config()
 
         self.stop_service()
@@ -106,6 +108,7 @@ class EmbyReverseProxy(_PluginBase):
                 pin_rules=self._pin_rules,
                 external_player_url=self._external_player_url,
                 external_player_list=self._external_player_list,
+                proxy=self._proxy,
             )
             try:
                 uv_config = Config(
@@ -143,6 +146,7 @@ class EmbyReverseProxy(_PluginBase):
                 "pin_rules": self._pin_rules_raw,
                 "external_player_url": self._external_player_url,
                 "external_player_list": self._external_player_list,
+                "proxy": self._proxy,
             }
         )
 
@@ -326,6 +330,28 @@ class EmbyReverseProxy(_PluginBase):
                         "props": {"cols": 12},
                         "content": [
                             {
+                                "component": "VTextField",
+                                "props": {
+                                    "model": "proxy",
+                                    "label": "自定义代理（可选）",
+                                    "placeholder": "http://192.168.1.95:7890",
+                                    "hint": "用于解析 alist/夸克等 HTTP 直链；留空表示不使用代理，直接连接。填写后仅对插件内部 httpx 请求生效。",
+                                    "persistent-hint": True,
+                                    "clearable": True,
+                                },
+                            }
+                        ],
+                    },
+                ],
+            },
+            {
+                "component": "VRow",
+                "content": [
+                    {
+                        "component": "VCol",
+                        "props": {"cols": 12},
+                        "content": [
+                            {
                                 "component": "VTextarea",
                                 "props": {
                                     "model": "pin_rules",
@@ -348,4 +374,5 @@ class EmbyReverseProxy(_PluginBase):
             "pin_rules": "",
             "external_player_url": False,
             "external_player_list": [],
+            "proxy": "",
         }
