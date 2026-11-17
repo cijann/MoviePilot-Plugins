@@ -1,0 +1,18 @@
+{
+  "DoubanRankPlus": {
+    "name": "豆瓣榜单Plus",
+    "description": "豆瓣热门榜单增强版，定时把豆瓣想看清单和热门榜单里的影视添加为订阅；已适配 MoviePilot 3.2.6+ 新版识别接口。",
+    "labels": "豆瓣,订阅,榜单",
+    "version": "2.0.1",
+    "icon": "https://raw.githubusercontent.com/boeto/MoviePilot-Plugins/main/icons/DouBanRankPlus.png",
+    "author": "boeto (适配补丁 by cijann)",
+    "level": 1,
+    "system_version": ">=3.2.6,<4",
+    "history": {
+      "v2.0.1": "适配 MoviePilot 3.2.6 新版 recognize_media / subscribechain.add 接口，修复 tmdbid/doubanid 参数不兼容导致的识别失败。",
+      "v2.0.0": "原始版本，来自 boeto/MoviePilot-Plugins。"
+    },
+    "plugin_readme": "https://raw.githubusercontent.com/cijann/MoviePilot-Plugins/main/plugins.v3/doubanrankplus/README.md",
+    "release": true
+  }
+}
